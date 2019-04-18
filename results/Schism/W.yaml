@@ -1,0 +1,29 @@
+# Example 2:
+# A phylogenetic tree with 15 mutation clusters
+# path to current working directory, used as the base for
+# relative paths elsewhere in this file
+
+working_dir: /home/ninomoriaty/R_Project/EvolCancer/EvolCancer/Schism
+
+mutation_to_cluster_assignment: W.mutation-to-cluster.tsv
+
+mutation_cellularity_input: W.clusterEstimates.tsv
+
+output_prefix: 0_W_results
+
+cellularity_estimation: other
+
+hypothesis_test:
+  test_level: clusters
+  significance_level: 0.05
+  store_pvalues: True
+
+genetic_algorithm:
+  instance_count: 10
+  generation_count: 50
+  generation_size: 1000
+  random_object_fraction: 0.2
+  mutation_probability: 0.9
+  crossover_probability: 0.25
+  fitness_coefficient: 5.0
+  verbose: True

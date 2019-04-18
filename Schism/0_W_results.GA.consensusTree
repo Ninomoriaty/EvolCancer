@@ -1,0 +1,4 @@
+parent	child	frequency	label
+21	0	1.0	1/1
+92	21	1.0	1/1
+105	92	1.0	1/1
