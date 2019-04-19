@@ -7,9 +7,12 @@ library(fishplot)
 ## prepare Schism input
 dir.cluster.tsv = "/home/ninomoriaty/R_Project/EvolCancer/EvolCancer/hu.cluster.tsv"
 dir.loci.tsv = "/home/ninomoriaty/R_Project/EvolCancer/EvolCancer/hu.loci.tsv"
-dir.output = "/home/ninomoriaty/R_Project/EvolCancer/EvolCancer/input"
+dir.output = "/home/ninomoriaty/R_Project/EvolCancer/EvolCancer/Schism"
 
 prepareSchismInput <- function(dir.cluster.tsv, dir.loci.tsv, dir.output){
+  # test: separate the first 3 sample and the next 4 sample to genrate a more proper result
+  sep3 <- c("WGC033386D", "WGC033387D", "WGC033388D")
+  sep4 <- c("WGC033389D", "WGC033391D", "WGC033392D", "WGC033393D")
   # read mutations in cluster.tsv from PyClone and get targeted clusters
   cluster.tsv = read.table(dir.cluster.tsv, sep="\t", stringsAsFactors=F, header=T)
   cluster_filter = cluster.tsv[!is.na(cluster.tsv$cluster_id) & cluster.tsv$size >= 5 & cluster.tsv$mean >= 0.1,]
@@ -17,7 +20,7 @@ prepareSchismInput <- function(dir.cluster.tsv, dir.loci.tsv, dir.output){
   
   # read mutations within targeted clusters in loc.tsv file from PyClone 
   loci.tsv = read.table(dir.loci.tsv, sep="\t", stringsAsFactors=F, header=T)
-  loci_filtered <- loci.tsv[which(loci.tsv$cluster_id %in% cluster_ls),]
+  loci_filtered <- loci.tsv[which(loci.tsv$cluster_id %in% cluster_ls & loci.tsv$sample_id %in% sep4),]
   
   # generate two outputs for SCHISM: clusterEstimates.tsv, mutation_to_cluster.tsv
   clusterEstimates.tsv <- data.frame(loci_filtered$sample_id, loci_filtered$mutation_id, 
@@ -84,7 +87,13 @@ schism2Fishplot <- function(dir.cluster.cellularity, dir.GA.consensusTree){
   frac.table[3,5] <- 49.60
   frac.table[2,5] <- 49.50
   frac.table[2,6] <- 49.70
-
+  
+  # test: first 3 columns errors(couldn't make a combination of subclones)
+  frac.table[3,1] <- 38.75 # minus 1
+  
+  # test: last 4 columns errors
+  frac.table[4,2] <- 49.72
+  frac.table[3,4] <- 43.00
   
   # tips: make sure that the parents start from 0 or you will get c stack error
   fish = createFishObject(frac.table, parents, timepoints = c(1:length(ls.sample)))
