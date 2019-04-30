@@ -1,5 +1,14 @@
 # Schism2Fishplot
 
+## Data Requirement
+
+1. Cellularity of each element in the fraction table of fishplot should be larger than 0. 
+2. The total cellularities of clusters in the same nest should be smaller than 100. 
+3. According to Lineage Precedence Rule, the sum of cellularities from child clusters should not be larger than their parent cluster. This depends on the evolution relationship referred by SCHISM and the statue of your data.  
+4. To complement upper "Prone-to-error" rules, you should obey other restrictions in cancer  sub-clone evolution research which could help your data to process successfully.
+
+
+
 ## Usage
 
 1. confirm the directory of the cluster.tsv and loci.tsv
